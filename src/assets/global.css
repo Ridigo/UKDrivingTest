@@ -1,0 +1,11 @@
+body {
+  background-color: #171a1b;
+}
+
+.list-group-dark .list-group-item {
+  background-color: rgb(var(--bs-dark-rgb));
+}
+
+.list-group-dark .list-group-item:hover {
+  background-color: rgb(var(--bs-dark-rgb) + 0.1);
+}
