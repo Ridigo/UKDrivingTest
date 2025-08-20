@@ -18,7 +18,7 @@ function QuestionList() {
   const [searchVal, setSearchVal] = useState("");
 
   useEffect(() => {
-    fetch("/questions.json")
+    fetch("/UKDrivingTest/questions.json")
       .then((response) => response.json())
       .then((data) => {
         setBackendData(data);
@@ -41,20 +41,18 @@ function QuestionList() {
 
   return (
     <>
-      <div
-        style={{
-          position: "absolute",
-        }}
-        className="text-light"
-      >
-        <Button
-          variant="dark border border-secondary"
-          href="/"
-          className="p-2 m-3"
-        >
-          hoem.
-        </Button>
+      <div className="container position-fixed">
+        <div className="row text-center">
+          <Button
+            variant="dark border border-secondary"
+            href="/"
+            className="p-3 mx-3 col-auto"
+          >
+            Home
+          </Button>
+        </div>
       </div>
+
       <div className="container">
         <div className="row justify-content-center my-2 my-md-3">
           <div className="col-8 col-md-auto bg-dark text-light rounded border border-secondary p-4">

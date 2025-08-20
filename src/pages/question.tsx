@@ -13,7 +13,7 @@ function QuestionPage() {
   const [selectedOption, setSelectedOption] = useState(-1);
 
   useEffect(() => {
-    fetch("/questions.json")
+    fetch("/UKDrivingTest/questions.json")
       .then((response) => response.json())
       .then((data) => {
         setBackendData(data);
@@ -159,7 +159,7 @@ function QuestionPage() {
           <div className="col col-sm-3 col-lg-2">
             <Button
               variant="dark"
-              href="/questionList"
+              href="#/questionList"
               className="fs-5 p-3 w-100"
             >
               List

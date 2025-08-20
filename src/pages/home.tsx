@@ -13,7 +13,7 @@ function Home() {
         <div className="col">
           <Button
             variant="dark"
-            href="/questionList"
+            href="#/questionList"
             className="p-3 fs-3 w-100"
           >
             Question List
@@ -21,7 +21,7 @@ function Home() {
         </div>
         <div className="col">
           <Button
-            href={"/question?id=" + String(Math.floor(Math.random() * 275))}
+            href={"#/question?id=" + String(Math.floor(Math.random() * 275))}
             variant="dark"
             className="p-3 fs-3 w-100"
           >
@@ -29,7 +29,7 @@ function Home() {
           </Button>
         </div>
         <div className="col">
-          <Button href="/mockTest" variant="dark" className="p-3 fs-3 w-100">
+          <Button href="#/mockTest" variant="dark" className="p-3 fs-3 w-100">
             Mock test
           </Button>
         </div>

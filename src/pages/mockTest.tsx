@@ -11,7 +11,7 @@ function MockTest() {
   const [deadline, setDeadline] = useState(0);
 
   useEffect(() => {
-    fetch("/questions.json")
+    fetch("/UKDrivingTest/questions.json")
       .then((response) => response.json())
       .then((data) => {
         setBackendData(data);
