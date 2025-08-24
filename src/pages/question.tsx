@@ -12,6 +12,9 @@ function QuestionPage() {
 
   const [selectedOption, setSelectedOption] = useState(-1);
 
+  const [answeredQuestionCount, setAnsweredQuestionCount] = useState(0);
+  const [correctQuestionCount, setCorrectQuestionCount] = useState(0);
+
   useEffect(() => {
     fetch("/UKDrivingTest/questions.json")
       .then((response) => response.json())
@@ -40,7 +43,20 @@ function QuestionPage() {
     return optionIndex === answerIndex;
   }
 
+  function handleOptionClick(optionIndex: number) {
+    if (selectedOption === -1) {
+      setSelectedOption(optionIndex);
+    }
+  }
+
   function redirectToRandomQuestion() {
+    if (selectedOption == answerIndex) {
+      setAnsweredQuestionCount(answeredQuestionCount + 1);
+      setCorrectQuestionCount(correctQuestionCount + 1);
+    } else if (selectedOption !== -1) {
+      setAnsweredQuestionCount(answeredQuestionCount + 1);
+    }
+
     searchParams.set(
       "id",
       String(Math.floor(Math.random() * (backendData?.length || 0)))
@@ -51,6 +67,13 @@ function QuestionPage() {
 
   return (
     <>
+      <div className="container position-fixed">
+        <div className="row text-center">
+          <div className="p-3 mx-3 col-auto text-light border rounded border-secondary bg-dark">
+            {correctQuestionCount}/{answeredQuestionCount}
+          </div>
+        </div>
+      </div>
       <div className="container">
         <div className="row justify-content-center mt-3">
           <div className="col-auto bg-dark rounded border border-secondary text-light p-4">
@@ -85,7 +108,7 @@ function QuestionPage() {
             <Button
               variant={getVariantName(0)}
               className="fs-3 p-3 w-100"
-              onClick={() => selectedOption === -1 && setSelectedOption(0)}
+              onClick={() => handleOptionClick(0)}
               disabled={selectedOption !== -1}
             >
               {question.options[0].includes("<img") ? (
@@ -103,7 +126,7 @@ function QuestionPage() {
             <Button
               variant={getVariantName(1)}
               className="fs-3 p-3 w-100"
-              onClick={() => selectedOption === -1 && setSelectedOption(1)}
+              onClick={() => handleOptionClick(1)}
               disabled={selectedOption !== -1}
             >
               {question.options[1].includes("<img") ? (
@@ -121,7 +144,7 @@ function QuestionPage() {
             <Button
               variant={getVariantName(2)}
               className="fs-3 p-3 w-100"
-              onClick={() => selectedOption === -1 && setSelectedOption(2)}
+              onClick={() => handleOptionClick(2)}
               disabled={selectedOption !== -1}
             >
               {question.options[2].includes("<img") ? (
@@ -139,7 +162,7 @@ function QuestionPage() {
             <Button
               variant={getVariantName(3)}
               className="fs-3 p-3 w-100"
-              onClick={() => selectedOption === -1 && setSelectedOption(3)}
+              onClick={() => handleOptionClick(3)}
               disabled={selectedOption !== -1}
             >
               {question.options[3].includes("<img") ? (
