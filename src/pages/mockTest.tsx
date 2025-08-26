@@ -13,11 +13,17 @@ function MockTest() {
   const [deadline, setDeadline] = useState(0);
 
   useEffect(() => {
-    fetch("/UKDrivingTest/questions.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendData(data);
-      });
+    let ignore = false;
+    if (typeof backendData === "undefined") {
+      fetch("/UKDrivingTest/questions.json")
+        .then((response) => response.json())
+        .then((data) => {
+          if (!ignore) setBackendData(data);
+        });
+    }
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   function generateQuestions() {

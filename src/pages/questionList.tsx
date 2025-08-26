@@ -20,12 +20,20 @@ function QuestionList() {
   const [searchVal, setSearchVal] = useState("");
 
   useEffect(() => {
-    fetch("/UKDrivingTest/questions.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendData(data);
-        setQuestions(data);
-      });
+    let ignore = false;
+    if (typeof backendData === "undefined") {
+      fetch("/UKDrivingTest/questions.json")
+        .then((response) => response.json())
+        .then((data) => {
+          if (!ignore) {
+            setBackendData(data);
+            setQuestions(data);
+          }
+        });
+    }
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   function handleSearch(val: string) {
