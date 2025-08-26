@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ListGroup from "../components/ListGroup";
 import { Button } from "react-bootstrap";
 
-type Question = {
+type QuestionObject = {
   id: string;
   question: string;
   picture: string;
@@ -13,7 +13,9 @@ type Question = {
 };
 
 function QuestionList() {
-  const [backendData, setBackendData] = useState<Question[] | undefined>();
+  const [backendData, setBackendData] = useState<
+    QuestionObject[] | undefined
+  >();
   const [questions, setQuestions] = useState(backendData);
   const [searchVal, setSearchVal] = useState("");
 
@@ -89,4 +91,4 @@ function QuestionList() {
 }
 
 export default QuestionList;
-export type { Question };
+export type { QuestionObject };

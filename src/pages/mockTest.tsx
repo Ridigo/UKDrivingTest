@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import type { Question } from "./questionList";
+import type { QuestionObject } from "./questionList";
 import Timer from "../components/Timer";
 
 function MockTest() {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionObject[]>([]);
 
-  const [backendData, setBackendData] = useState<Question[] | undefined>();
+  const [backendData, setBackendData] = useState<
+    QuestionObject[] | undefined
+  >();
 
   const [deadline, setDeadline] = useState(0);
 

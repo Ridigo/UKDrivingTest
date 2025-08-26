@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useSearchParams } from "react-router";
-import type { Question } from "./questionList";
+import type { QuestionObject } from "./questionList";
 import { Button } from "react-bootstrap";
+import { shuffleArray } from "../assets/shared.ts";
 
 function QuestionPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  //
 
-  const [backendData, setBackendData] = useState<Question[] | undefined>();
+  const [backendData, setBackendData] = useState<
+    QuestionObject[] | undefined
+  >();
 
   const [selectedOption, setSelectedOption] = useState(-1);
 
   const [answeredQuestionCount, setAnsweredQuestionCount] = useState(0);
   const [correctQuestionCount, setCorrectQuestionCount] = useState(0);
 
-  useEffect(() => {
-    fetch("/UKDrivingTest/questions.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendData(data);
-      });
-  }, []);
-
-  const id: number = Number(searchParams.get("id"));
-  let question: Question = {
+  const [question, setQuestion] = useState<QuestionObject>({
     id: "undefined",
     question: "undefined",
     picture: "undefined",
@@ -32,16 +25,32 @@ function QuestionPage() {
     category: "undefined",
     options: ["undefined", "undefined", "undefined", "undefined"],
     answer: "undefined",
-  };
+  });
 
-  if (typeof backendData !== "undefined") {
-    question = backendData[id];
-  }
+  const id: number = Number(searchParams.get("id"));
+
+  useEffect(() => {
+    let ignore = false;
+    if (typeof backendData === "undefined") {
+      fetch("/UKDrivingTest/questions.json")
+        .then((response) => response.json())
+        .then((data) => {
+          if (!ignore) setBackendData(data);
+        });
+    }
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  useMemo(() => {
+    if (typeof backendData !== "undefined") {
+      shuffleArray(backendData[id].options);
+      setQuestion(backendData[id]);
+    }
+  }, [searchParams, backendData]);
+
   const answerIndex = question.options.indexOf(question.answer);
-
-  function checkOption(optionIndex: number) {
-    return optionIndex === answerIndex;
-  }
 
   function handleOptionClick(optionIndex: number) {
     if (selectedOption === -1) {
@@ -91,7 +100,7 @@ function QuestionPage() {
                   className="p-4"
                   src={question.picture}
                   style={{
-                    minWidth: "80%",
+                    minWidth: "60%",
                     maxHeight: "400px",
                     display: "block",
                     marginLeft: "auto",
@@ -213,7 +222,7 @@ function QuestionPage() {
 
   function getVariantName(index: number) {
     if (selectedOption !== -1) {
-      if (checkOption(index)) return "success";
+      if (index === answerIndex) return "success";
       else if (selectedOption === index) return "danger";
     }
     return "dark";
